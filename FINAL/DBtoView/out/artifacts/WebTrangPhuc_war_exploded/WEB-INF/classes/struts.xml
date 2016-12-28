@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <package name="default" extends="struts-default">
+        <action name="contact" class="com.action.ContactAction" method="execute">
+            <result name="success">/pages/contact.jsp</result>
+        </action>
+        <action name="homePage" class="com.action.HomePageAction" method="execute">
+            <result name="success">/pages/index.jsp</result>
+        </action>
+        <action name="viewContact" class="com.action.ContactAction" method="viewContact">
+            <result name="success">/pages/contact.jsp</result>
+        </action>
+    </package>
+
+    <package name="users" namespace="/users" extends="struts-default">
+        <action name="login" class="com.action.LoginAction" method="execute">
+            <result name="success">/</result>
+            <result name="error">/pages/login.jsp</result>
+        </action>
+        <action name="viewLogin" class="com.action.LoginAction" method="viewLogin">
+            <result name="success">/pages/login.jsp</result>
+        </action>
+        <action name="register" class="com.action.RegisterAction" method="execute">
+            <result name="success">/pages/login.jsp</result>
+        </action>
+        <action name="viewRegister" class="com.action.RegisterAction" method="viewRegister">
+            <result name="success">/pages/login.jsp</result>
+        </action>
+        <action name="logout" class="com.action.LoginAction" method="logout">
+            <result name="success">/</result>
+        </action>
+    </package>
+
+    <package name="products" extends="struts-default" namespace="/products">
+        <action name="new_products" class="com.action.ProductAction" method="execute">
+            <result name="success">/pages/new_products.jsp</result>
+        </action>
+        <action name="products_list" class="com.action.ProductAction" method="productsList">
+            <result name="success">/pages/products_list.jsp</result>
+        </action>
+        <action name="product_detail" class="com.action.ProductAction" method="productDetail">
+            <result name="success">/pages/product_detail.jsp</result>
+        </action>
+    </package>
+
+    <package name="blog" extends="struts-default" namespace="/blog">
+        <action name="blog_list" class="com.action.BlogAction" method="execute">
+            <result name="success">/pages/blog_list.jsp</result>
+        </action>
+        <action name="blog_detail" class="com.action.BlogAction" method="blogDetail">
+            <result name="success">/pages/blog_detail.jsp</result>
+        </action>
+    </package>
+
+    <package name="orders" extends="struts-default" namespace="/orders">
+        <action name="productlist" class="com.action.ProductList">
+            <result name="success" >/pages/index.jsp</result>
+        </action>
+
+        <action name="addToCart" class="com.action.AddProductToCartAction">
+            <result name="success" type="redirectAction">viewCart</result>
+        </action>
+
+        <action name="viewCart" class="com.action.ViewCartAction">
+            <result name="success" >/pages/cart.jsp</result>
+        </action>
+
+        <action name="remove_product" class="com.action.ViewCartAction" method="removeProduct">
+            <result name="success" type="redirectAction">viewCart</result>
+        </action>
+
+        <action name="checkout" class="com.action.CheckoutAction">
+            <result name="success">/pages/checkout.jsp</result>
+        </action>
+
+        <action name="change_quantity" class="com.action.ViewCartAction" method="changeQuantity">
+            <result name="success" type="redirectAction">viewCart</result>
+        </action>
+    </package>
+
+    <!--admin-->
+    <package name="admin" extends="struts-default" namespace="/admin">
+        <action name="test" class="com.action.admin.TestAction">
+            <result name="success">/pages/checkout.jsp</result>
+        </action>
+
+        <action name="index" class="com.action.admin.HomeAction" method="execute">
+            <result name="success">/pages/admin/index.jsp</result>
+            <result name="error" type="redirectAction">homePage</result>
+        </action>
+
+        <!--region categories-->
+        <action name="categories" class="com.action.admin.CategoriesAction" method="categories">
+            <result name="success">/pages/admin/categories.jsp</result>
+        </action>
+
+        <action name="addcategory" class="com.action.admin.CategoriesAction" method="modifyCategory">
+            <result name="success">/pages/admin/categories_add.jsp</result>
+            <result name="added" type="redirectAction"><param name="actionName">categories</param></result>
+        </action>
+        <action name="editcategory" class="com.action.admin.CategoriesAction" method="modifyCategory">
+            <result name="success">/pages/admin/categories_edit.jsp</result>
+            <result name="edited" type="redirectAction"><param name="actionName">categories</param></result>
+        </action>
+        <action name="deletecategory" class="com.action.admin.CategoriesAction" method="deleteCategory">
+            <result name="success" type="redirectAction"><param name="actionName">categories</param></result>
+            <result name="deleted" type="redirectAction"><param name="actionName">categories</param></result>
+        </action>
+
+        <!--end region categories-->
+
+        <!--region products-->
+        <action name="products" class="com.action.admin.ProductsAction" method="products">
+            <result name="success">/pages/admin/products.jsp</result>
+        </action>
+
+        <action name="addproduct" class="com.action.admin.ProductsAction" method="modifyProduct">
+            <result name="success">/pages/admin/products_add.jsp</result>
+            <result name="added" type="redirectAction"><param name="actionName">products</param></result>
+        </action>
+
+        <action name="editproduct" class="com.action.admin.ProductsAction" method="modifyProduct">
+            <result name="success">/pages/admin/products_edit.jsp</result>
+            <result name="edited" type="redirectAction"><param name="actionName">products</param></result>
+        </action>
+
+        <action name="deleteproduct" class="com.action.admin.ProductsAction" method="deleteProduct">
+            <result name="success" type="redirectAction"><param name="actionName">products</param></result>
+            <result name="deleted" type="redirectAction"><param name="actionName">products</param></result>
+        </action>
+
+        <action name="upload" class="com.action.admin.ProductsAction" method="upload">
+            <result name="uploaded" type="redirectAction">
+                <param name="actionName">editproduct</param>
+                <param name="productId">${productId}</param>
+                <param name="fileName">${myFileFileName}</param>
+            </result>
+        </action>
+
+        <action name="deleteImage" class="com.action.admin.ProductsAction" method="deleteImage">
+            <result name="deleted" type="redirectAction">
+                <param name="actionName">editproduct</param>
+                <param name="productId">${productId}</param>
+            </result>
+        </action>
+        <!--end region products-->
+
+        <!--region reviews-->
+        <action name="reviews" class="com.action.admin.ReviewsAction" method="reviews">
+            <result name="success">/pages/admin/reviews.jsp</result>
+        </action>
+        <!--end region reviews-->
+
+        <!--region orders-->
+        <action name="orders" class="com.action.admin.OrdersAction" method="orders">
+            <result name="success">/pages/admin/orders.jsp</result>
+        </action>
+
+        <action name="addorder" class="com.action.admin.OrdersAction" method="modifyOrder">
+            <result name="success">/pages/admin/orders_add.jsp</result>
+            <result name="added" type="redirectAction"><param name="actionName">orders</param></result>
+        </action>
+
+        <action name="editorder" class="com.action.admin.OrdersAction" method="modifyOrder">
+            <result name="success">/pages/admin/orders_edit.jsp</result>
+            <result name="edited" type="redirectAction"><param name="actionName">orders</param></result>
+        </action>
+
+        <action name="deleteorder" class="com.action.admin.OrdersAction" method="deleteOrder">
+            <result name="success" type="redirectAction"><param name="actionName">orders</param></result>
+            <result name="deleted" type="redirectAction"><param name="actionName">orders</param></result>
+        </action>
+        <!--end region orders-->
+
+        <!--region customers-->
+        <action name="customers" class="com.action.admin.CustomersAction" method="customers">
+            <result name="success">/pages/admin/customers.jsp</result>
+        </action>
+
+        <action name="addcustomer" class="com.action.admin.CustomersAction" method="modifyCustomer">
+            <result name="success">/pages/admin/customers_add.jsp</result>
+            <result name="added" type="redirectAction"><param name="actionName">customers</param></result>
+        </action>
+
+        <action name="editcustomer" class="com.action.admin.CustomersAction" method="modifyCustomer">
+            <result name="success">/pages/admin/customers_edit.jsp</result>
+            <result name="edited" type="redirectAction"><param name="actionName">customers</param></result>
+        </action>
+
+        <action name="deletecustomer" class="com.action.admin.CustomersAction" method="deleteCustomer">
+            <result name="success" type="redirectAction"><param name="actionName">customers</param></result>
+            <result name="deleted" type="redirectAction"><param name="actionName">customers</param></result>
+        </action>
+        <!--end region customers-->
+
+        <!--region contacts-->
+        <action name="contacts" class="com.action.admin.ContactAction" method="contacts">
+            <result name="success">/pages/admin/contacts.jsp</result>
+        </action>
+        <!--end region contacts-->
+    </package>
+    <!--end admin-->
+
+
+    <package name="serveAll" extends="struts-default">
+        <action name="*">
+            <result>/pages/error/404.jsp</result>
+        </action>
+    </package>
+</struts>
